@@ -9,3 +9,4 @@ export const contract = getContract({
   chain: sepolia,
   address: CONTRACT_ADDRESS,
 });
+

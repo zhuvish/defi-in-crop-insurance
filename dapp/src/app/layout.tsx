@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import Navbar from "../components/Navbar";
 import ThirdwebAppProvider from "../components/ThirdwebAppProvider";
+import Navbar from "../components/Navbar";
 
-const metadata: Metadata = {
-  title: "Crop Insurance DApp",
-  description: "Decentralized crop insurance on Sepolia",
+export const metadata: Metadata = {
+  title: "Decentralized Crop Insurance",
+  description: "Parametric crop insurance on Sepolia",
 };
 
 export default function RootLayout({
@@ -15,10 +15,12 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className="bg-gray-100 min-h-screen">
+      <body className="min-h-screen bg-slate-50 text-slate-900">
         <ThirdwebAppProvider>
           <Navbar />
-          <main className="p-6 max-w-4xl mx-auto">{children}</main>
+          <main className="mx-auto flex max-w-6xl flex-col gap-8 px-4 pb-12 pt-8">
+            {children}
+          </main>
         </ThirdwebAppProvider>
       </body>
     </html>
