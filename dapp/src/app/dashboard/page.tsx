@@ -3,6 +3,7 @@
 import { useReadContract } from "thirdweb/react";
 import { contract } from "../../lib/contract";
 import { formatUnits } from "viem";
+import { User, CloudRain, Wallet, FileText } from "lucide-react";
 
 const toEth = (value?: bigint) =>
   value !== undefined ? Number(formatUnits(value, 18)).toFixed(4) : "...";
@@ -39,35 +40,93 @@ export default function Dashboard() {
   });
 
   return (
-    <div className="space-y-4">
-      <h1 className="text-2xl font-bold mb-2">Contract Dashboard</h1>
+    <div className="px-6 lg:px-20 py-12 flex justify-center text-gray-100">
 
-      <div className="grid gap-4 md:grid-cols-2">
-        <div className="p-4 bg-white rounded-lg shadow">
-          <p className="text-xs text-gray-500">Insurer</p>
-          <p className="font-mono break-all text-sm">{insurer ?? "…"}</p>
-        </div>
+      {/* Outer Big Card */}
+      <div
+        className="
+          w-full max-w-6xl
+          bg-gray-800/70 
+          backdrop-blur-xl
+          border border-gray-700
+          rounded-3xl 
+          p-10 
+          shadow-xl shadow-black/40
+          hover:shadow-indigo-500/20
+          transition
+        "
+      >
+        <h1 className="text-4xl font-bold text-center text-white mb-10">
+          Contract Dashboard
+        </h1>
 
-        <div className="p-4 bg-white rounded-lg shadow">
-          <p className="text-xs text-gray-500">Oracle</p>
-          <p className="font-mono break-all text-sm">{oracle ?? "…"}</p>
-        </div>
+        {/* Inner Cards Grid */}
+        <div
+          className="
+            grid grid-cols-1 
+            sm:grid-cols-2 
+            lg:grid-cols-3 
+            gap-8 
+            justify-items-center
+          "
+        >
+          <InfoCard
+            icon={<User className="w-7 h-7 text-indigo-400" />}
+            label="Insurer"
+            value={insurer ?? "..."}
+          />
 
-        <div className="p-4 bg-white rounded-lg shadow">
-          <p className="text-xs text-gray-500">Reserved Funds</p>
-          <p>{toEth(reservedFunds as bigint)} ETH</p>
-        </div>
+          <InfoCard
+            icon={<CloudRain className="w-7 h-7 text-indigo-400" />}
+            label="Oracle"
+            value={oracle ?? "..."}
+          />
 
-        <div className="p-4 bg-white rounded-lg shadow">
-          <p className="text-xs text-gray-500">Available Profit</p>
-          <p>{toEth(availableProfit as bigint)} ETH</p>
-        </div>
+          <InfoCard
+            icon={<Wallet className="w-7 h-7 text-indigo-400" />}
+            label="Reserved Funds"
+            value={`${toEth(reservedFunds as bigint)} ETH`}
+          />
 
-        <div className="p-4 bg-white rounded-lg shadow">
-          <p className="text-xs text-gray-500">Total Policies</p>
-          <p>{totalPolicies?.toString() ?? "…"}</p>
+          <InfoCard
+            icon={<Wallet className="w-7 h-7 text-indigo-400" />}
+            label="Available Profit"
+            value={`${toEth(availableProfit as bigint)} ETH`}
+          />
+
+          <InfoCard
+            icon={<FileText className="w-7 h-7 text-indigo-400" />}
+            label="Total Policies"
+            value={totalPolicies?.toString() ?? "..."}
+          />
         </div>
       </div>
+    </div>
+  );
+}
+
+function InfoCard({ icon, label, value }: any) {
+  return (
+    <div
+      className="
+        w-full
+        bg-gray-900/60
+        border border-gray-700
+        rounded-2xl 
+        p-6 
+        shadow-lg shadow-black/40
+        hover:shadow-indigo-500/20 
+        transition-all
+      "
+    >
+      <div className="flex items-center gap-3 mb-4">
+        {icon}
+        <span className="text-sm text-gray-400">{label}</span>
+      </div>
+
+      <p className="font-mono text-gray-100 text-lg break-all">
+        {value}
+      </p>
     </div>
   );
 }

@@ -18,11 +18,19 @@ export default function MyPolicy() {
   });
 
   if (!account) {
-    return <p>Please connect your wallet to view your policy.</p>;
+    return (
+      <p className="text-center text-gray-300 mt-10">
+        Connect your wallet to view your policy.
+      </p>
+    );
   }
 
   if (isLoading || !data) {
-    return <p>Loading policy…</p>;
+    return (
+      <p className="text-center text-gray-300 mt-10">
+        Loading your policy…
+      </p>
+    );
   }
 
   const [
@@ -35,7 +43,7 @@ export default function MyPolicy() {
     location,
     active,
     paidOut,
-  ] = data as [
+  ] = data as unknown as [
     string,
     bigint,
     bigint,
@@ -57,41 +65,54 @@ export default function MyPolicy() {
     !paidOut;
 
   if (noPolicy) {
-    return <p>You do not have a policy yet.</p>;
+    return (
+      <p className="text-center text-gray-300 mt-10">
+        You do not have a policy yet.
+      </p>
+    );
   }
 
   return (
-    <div className="space-y-4 max-w-xl">
-      <h1 className="text-2xl font-bold mb-2">My Policy</h1>
-      <div className="space-y-2 p-4 bg-white rounded-lg shadow">
-        <p>
-          <span className="font-semibold">Farmer:</span>{" "}
-          <span className="font-mono break-all">{farmer}</span>
-        </p>
-        <p>
-          <span className="font-semibold">Premium Paid:</span>{" "}
-          {toEth(premiumPaid)} ETH
-        </p>
-        <p>
-          <span className="font-semibold">Payout Amount:</span>{" "}
-          {toEth(payoutAmount)} ETH
-        </p>
-        <p>
-          <span className="font-semibold">Rainfall Threshold:</span>{" "}
-          {rainfallThreshold.toString()} mm
-        </p>
-        <p>
-          <span className="font-semibold">Location:</span> {location}
-        </p>
-        <p>
-          <span className="font-semibold">Active:</span>{" "}
-          {active ? "Yes" : "No"}
-        </p>
-        <p>
-          <span className="font-semibold">Paid Out:</span>{" "}
-          {paidOut ? "Yes" : "No"}
-        </p>
+    <div className="px-6 lg:px-20 py-12 flex justify-center text-gray-100">
+      <div className="w-full max-w-xl mx-auto space-y-8">
+
+        {/* TITLE INSIDE CARD */}
+        <div
+          className="
+            space-y-6 
+            p-8 
+            rounded-2xl
+            bg-[#111827]/60
+            bg-gradient-to-br from-[#1f2937]/70 to-[#111827]/60
+            backdrop-blur-xl
+            border border-gray-700/40
+            shadow-[0_8px_30px_rgba(0,0,0,0.45)]
+            transition-all duration-300
+            text-gray-100
+          "
+        >
+          <h1 className="text-3xl font-bold text-center mb-2 text-white">
+            My Policy
+          </h1>
+
+          <PolicyItem label="Farmer" value={farmer} mono />
+          <PolicyItem label="Premium Paid" value={`${toEth(premiumPaid)} ETH`} />
+          <PolicyItem label="Payout Amount" value={`${toEth(payoutAmount)} ETH`} />
+          <PolicyItem label="Rainfall Threshold" value={`${rainfallThreshold} mm`} />
+          <PolicyItem label="Location" value={location} />
+          <PolicyItem label="Active" value={active ? "Yes" : "No"} />
+          <PolicyItem label="Paid Out" value={paidOut ? "Yes" : "No"} />
+        </div>
       </div>
     </div>
+  );
+}
+
+function PolicyItem({ label, value, mono = false }: any) {
+  return (
+    <p className="text-gray-200 text-lg">
+      <span className="font-semibold text-indigo-300">{label}:</span>{" "}
+      <span className={mono ? "font-mono break-all" : ""}>{value}</span>
+    </p>
   );
 }
